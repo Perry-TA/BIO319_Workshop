@@ -135,7 +135,6 @@ BS[1:5,"title"] # First subscript is for the row values,
 hist(BS$year) # Histogram choosing the data frame in respect to ($) the year
 hist(BS$year [1:20]) # choosing specific data frames 1 to 20
 #20 = 100, 40 = 200, 60 = 300, 80 = 400, 100 = 500
-BS$Number_of_pages <-rep(A, times = (ncol(BS)))
 # rep(x = c("a","b","c"), each = 5, times = 1)
 A <- c(rep("100", times = 20),rep("200", times =20),   # organizing specific column
        rep("300", times = 20), rep("400", times =20),
@@ -144,6 +143,10 @@ str(A)
 
 BS$Number_of_pages <-c(A)  # adding "A" Column to existing data set using $
 print(BS$Number_of_pages)
+# or
+
+BS$Number_of_pages <- rep( c(100,200,300,400,500), each =20)
+
 #alternate way
 BS$Number_of_pages <- rep(seq(from = 100, # start from value 100
                               to = 500,   # end value 500
@@ -156,25 +159,25 @@ BS$Number_of_pages <- rep(seq(from = 100, # start from value 100
 #7)
 #Q1 - Character, integer, logical, numerical 
 #Q2 
-Mat1.data <- c(1:100)
-Mat1.data[seq(0, 100, 2)]
-str(Mat1.data)
-Mat2 <- seq(1001,1500, 2)
-Mat2 
+vat1.data <- c(1:100)
+vat1.data[seq(0, 100, 2)]
+str(vat1.data)
+vat2 <- seq(1001,1500, 2) # to get all odd numbers in the sequence between 1000 & 1500
+vat2 
 
-Mat2v <- Mat2[Mat2 %% 7 ==0] # Mat2 all integers divisible by 7
-Mat2v # the print
+vat2v <- vat2[vat2 %% 7 ==0] # vat2 all integers divisible by 7
+print(vat2v) 
 
-#Q3 Using the NYT bestseller data, create a vector of 
+# Q3 Using the NYT bestseller data, create a vector of 
 # the names all the books that were in the top spot for at least 10 weeks.
 BS_Title<- BS[1:100,"title"]
 BS_Ten <- BS$title[BS$total_weeks >= 10] # Choosing all numbers equal to and above "10 weeks"
  
 print(BS_Title)
 str(BS_Title)
-
-Ten_Weeks<- BS_Title[BS$total_weeks >= 10]# ALL NAMES OF TOP SELLERS
-                                      # FOR MORE THAN 10 WEEKS OR EQUAL TO
+# alternate way
+Ten_Weeks<- BS_Title[BS$total_weeks >= 10]# ALL NAMES OF TOP SELLERS FOR MORE THAN 10 WEEKS OR EQUAL TO
+                                      
 print(Ten_Weeks)
 
 #Q4 - Using the NYT bestseller data, create a new data frame where all the 
@@ -187,11 +190,11 @@ print(Less_ten)
 
 #Q5 - Add a new column to your data frame called ‘long10’ that contains the word 
 # ‘yes’ if the book title is 10 characters long, and ‘no’ if it is not
-Less$long10 <- nchar(Less$title) == 10 # Vector made to parse titles with 10 characters, logical TRUE & FALSE
-Less$long10 <- ifelse(Less$long10, "yes", "no") #  change name of
-                                          #logical statements to no or yes
+Less$long10 <- nchar(Less$title) == 10 # Vector made to distinguish titles with 10 characters, logical TRUE if 10, FALSE if any other number other than 10
+Less$long10 <- ifelse(Less$long10, "yes", "no") #  change name of logical elements to "no" or "yes"
+                                          
 ?ifelse
-nrow(Less) #see dimensions "49"
+nrow(Less) #see dimensions "42"
 ncol(Less) # see number of rows "2"
 str(Less) # Chr
 names(Less) # column names
@@ -201,7 +204,7 @@ names(Less) # column names
 #Adding an author column
 
 
-# lame short cut
+# lame method
 Lame<-(BS[,2:4]) # new data frame
 
 Lame$long10 <- nchar(Lame$title) != 10 # adding long10 to new vector
@@ -216,16 +219,13 @@ Lame$Total_weeks <- BS$total_weeks # Moving total weeks from old data frame to e
 Lame2<-Lame[Lame$Total_weeks < 10,]  #books were in the top spot for less than 10 weeks 
 print(Lame2)
 
-
 #making less ten with less than 15 characters
 Lame3<-Lame2[nchar(as.character(Lame2$title))<15,]
 
-
-#Super lame short cut achieved
+# lame ( & long) method
 Lame4 <- Lame3[,1:4]
-
 print(Lame4[,1:4])
 
-finalLame <- Less [,c("title", "author", "year", "long10")]
+efficientBS <- Less [,c("title", "author", "year", "long10")] # Efficient way
 
  
