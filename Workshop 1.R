@@ -55,7 +55,7 @@ y <- c(TRUE, FALSE, TRUE, FALSE, TRUE, TRUE) #logical matrix
 rep(x = c(1, 3, 5, 7, 9, 11), times = 2) # testing repetition function
 
 rep(x = c("I", "will", "not", "tell", "lies"), times = 100)
-rep(x = c("a","b","c"), each = 5, times = 1)
+dam<-rep(x = c("a","b","c"), each = 5, times = 1)
 ?rep()
 
 
@@ -93,7 +93,7 @@ Z2
 
 
 #5.4
-mat1.data <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+mat1.data <- c(1:9)
 mat1 <- matrix(mat1.data,
                nrow = 3,
                ncol = 3,
@@ -108,14 +108,16 @@ mat3 <- matrix(mat3.data,
                nrow = 3,
                ncol = 4,
                byrow = FALSE) 
-mat3
+
+mat3 == letters[1:12]
+class(pi)
 
 mat3[1,4] # locating the first row, fourth column
 mat3[2:4] # first row second to fourth value
 mat3[3,2:4] # third row, second to fourth value
 
 mat3[3,4] # third element, fourth column
-mat3[2:3,4]    # 2nd and 3rd rows of the 4 column "k and l"
+mat3[2:3,1]    # 2nd and 3rd rows of the 4 column "k and l"
 mat3[2:3,]    # return all but the elements of the first row
 
 
@@ -138,14 +140,17 @@ BS$Number_of_pages <-rep(A, times = (ncol(BS)))
 A <- c(rep("100", times = 20),rep("200", times =20),   # organizing specific column
        rep("300", times = 20), rep("400", times =20),
                                   rep("500", times =20))
-BS$Number_of_pages <-c(A)  # adding to existing data set
+str(A)
+
+BS$Number_of_pages <-c(A)  # adding "A" Column to existing data set using $
 print(BS$Number_of_pages)
 #alternate way
-BS$Number_of_pages <- rep(seq(from = 100, #start from value 100
-                              to = 500,   #end value 500
+BS$Number_of_pages <- rep(seq(from = 100, # start from value 100
+                              to = 500,   # end value 500
                               by = 100), # increments of 100
-                              each= 20, times =1) # each value generates 20 repeats "each"
-                                                #did it!!
+                              each= 20) # each value generates 20 repeats "each"
+?rep
+
 #Use seq to create the rep function
 ?seq
 #7)
@@ -154,7 +159,7 @@ BS$Number_of_pages <- rep(seq(from = 100, #start from value 100
 Mat1.data <- c(1:100)
 Mat1.data[seq(0, 100, 2)]
 str(Mat1.data)
-Mat2 <- c(1000:1500)
+Mat2 <- seq(1001,1500, 2)
 Mat2 
 
 Mat2v <- Mat2[Mat2 %% 7 ==0] # Mat2 all integers divisible by 7
@@ -163,7 +168,7 @@ Mat2v # the print
 #Q3 Using the NYT bestseller data, create a vector of 
 # the names all the books that were in the top spot for at least 10 weeks.
 BS_Title<- BS[1:100,"title"]
-BS_Ten <- BS$total_weeks[BS$total_weeks >= 10] # Choosing all numbers equal to and above "10 weeks"
+BS_Ten <- BS$title[BS$total_weeks >= 10] # Choosing all numbers equal to and above "10 weeks"
  
 print(BS_Title)
 str(BS_Title)
@@ -175,23 +180,17 @@ print(Ten_Weeks)
 #Q4 - Using the NYT bestseller data, create a new data frame where all the 
 #books were in the top spot for less than 10 weeks and have titles that are 
 #less than 15 characters long.
-Less_ten<-BS_Title[BS$total_weeks < 10] #books were in the top spot for less than 10 weeks 
+Less <- BS[ BS$total_weeks < 10 & nchar(BS$title) < 15,] #books were in the top spot for less than 10 weeks 
 print(Less_ten)
 
-
-#making less ten with less than 15 characters
-Second_column <- c(Less_ten)
-intermediate <- data.frame(Second_column) # making new data frame
-title <- intermediate[nchar(as.character(intermediate$Second_column))<=15,]
-Less <-data.frame(title) # new less than 15 characters from less popular books
 
 
 #Q5 - Add a new column to your data frame called ‘long10’ that contains the word 
 # ‘yes’ if the book title is 10 characters long, and ‘no’ if it is not
-Less$long10 <- nchar(Less$title) == 10 # near the answer
+Less$long10 <- nchar(Less$title) == 10 # Vector made to parse titles with 10 characters, logical TRUE & FALSE
 Less$long10 <- ifelse(Less$long10, "yes", "no") #  change name of
                                           #logical statements to no or yes
-
+?ifelse
 nrow(Less) #see dimensions "49"
 ncol(Less) # see number of rows "2"
 str(Less) # Chr
@@ -205,9 +204,9 @@ names(Less) # column names
 # lame short cut
 Lame<-(BS[,2:4]) # new data frame
 
-Lame$long10 <- nchar(Lame$title) == 10 # adding long10 to new vector
+Lame$long10 <- nchar(Lame$title) != 10 # adding long10 to new vector
 
-Lame$long10 <- ifelse(Lame$long10, "yes", "no") #changing logical answers to "yes" or "no"
+Lame$long10 <- ifelse(Lame$long10, "no", "yes") #changing logical answers to "yes" or "no"
 
 # Now, have to reduce ones with less than 
 # 10 weeks + less than 15 characters
@@ -219,7 +218,7 @@ print(Lame2)
 
 
 #making less ten with less than 15 characters
-Lame3<-Lame2[nchar(as.character(Lame2$title))<=15,]
+Lame3<-Lame2[nchar(as.character(Lame2$title))<15,]
 
 
 #Super lame short cut achieved
@@ -227,6 +226,6 @@ Lame4 <- Lame3[,1:4]
 
 print(Lame4[,1:4])
 
-
+finalLame <- Less [,c("title", "author", "year", "long10")]
 
  
